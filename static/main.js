@@ -2,15 +2,7 @@ $(document).ready(function() {
 console.log("Jquery works...");
 
 $("#connect-btn").on("click", function () {
-    const socket = io.connect("/",  
-        {cors:  {
-            origin: "http://localhost",
-            methods: ["GET", "POST"],
-            credentials: true,
-            transports: ['websocket', 'polling'],
-                },
-        allowEIO3: true
-        })
+    const socket = io.connect("/")
 
     socket.on("connect", function () {
         let username = $("#username-input").val()
