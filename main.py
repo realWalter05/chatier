@@ -12,6 +12,11 @@ def index():
     print("Indexing")
     return render_template('index.html')
 
+@app.route('/reset')
+def reset():
+    usernames = {}
+    return render_template('index.html')
+
 @socketio.on("message")
 def handle_message(msg):
     if msg[0] == "set_username":
