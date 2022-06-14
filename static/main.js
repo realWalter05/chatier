@@ -1,4 +1,5 @@
 $(document).ready(function() {
+console.log("We started.")
 
 $("#connect-btn").on("click", function () {
     const socket = io.connect("/");
