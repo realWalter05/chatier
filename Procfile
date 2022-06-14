@@ -1,1 +1,1 @@
-web: waitress-serve --port=5004 main:application
+gunicorn --workers=5 main:app
