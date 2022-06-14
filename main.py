@@ -30,6 +30,3 @@ def handle_connection():
     print("connects")
     # Save username to dictionary
     usernames[request.sid] = ""
-
-if __name__ == "__main__":
-    socketio.run(app)
