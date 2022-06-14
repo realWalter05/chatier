@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template
-from flask_socketio import SocketIO, send
+from flask.ext.socketio import SocketIO
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "WalterIsCull"

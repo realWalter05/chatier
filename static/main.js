@@ -1,8 +1,8 @@
 $(document).ready(function() {
-console.log("We started.")
+console.log("We started.");
 
 $("#connect-btn").on("click", function () {
-    const socket = io.connect("/");
+    const socket = io.connect('http://' + document.domain + ':' + location.port);
 
     socket.on("connect", function () {
         let username = $("#username-input").val()
