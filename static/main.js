@@ -1,13 +1,12 @@
 $(document).ready(function() {
-console.log("We started.");
+console.log("Jquery works...");
 
 $("#connect-btn").on("click", function () {
     const socket = io.connect("/");
 
     socket.on("connect", function () {
         let username = $("#username-input").val()
-        socket.send(username);
-        //socket.send("usernames_request");
+        socket.send(["set_username", username]);
     });
 
     socket.on("message", function (msg) {
@@ -19,7 +18,23 @@ $("#connect-btn").on("click", function () {
                     $("#online").append("<li>" + msg[1][i] + "</li>");
                 }
             } else {
-                $("#result").append(msg[0] + ": " + msg[1] + "<br/>");
+                let sender = msg[0]
+                let message = msg[1]
+                let time = msg[2]
+
+                if (document.querySelectorAll("#"+sender).length == 0) {
+                    // Create conversation div
+                    let conversationDiv = document.createElement("section");
+                    conversationDiv.setAttribute("id", sender)
+                    conversationDiv.setAttribute("class", "w-100 p-5 bg-light overflow-auto")
+                    
+                    let title = document.createElement("h3");
+                    title.innerText = sender;
+                    conversationDiv.append(title)
+                    $("#result").append(conversationDiv);
+                }
+
+                $("#"+sender).append(time + " " + sender + ": " + message + "<br/>");
             }
         }   
     });		
@@ -27,7 +42,25 @@ $("#connect-btn").on("click", function () {
     $("#send-msg-btn").on("click", function () {
         let msg = [$("#receiver-input").val(), $("#msg-input").val()];
         console.log(msg);
-        socket.send(msg);
+        socket.send(["message", msg]);
+
+        if (document.querySelectorAll("#"+msg[0]).length == 0) {
+            // Create conversation div
+            let conversationDiv = document.createElement("section");
+            conversationDiv.setAttribute("id", msg[0])
+            conversationDiv.setAttribute("class", "w-100 p-5 bg-light overflow-auto")
+            
+            let title = document.createElement("h3");
+            title.innerText = msg[0];
+            conversationDiv.append(title)
+            $("#result").append(conversationDiv);
+        }
+
+        let hour = new Date().getHours();
+        let minute = new Date().getMinutes();
+        let second = new Date().getSeconds();
+        let time = hour + ":" + minute + ":" + second
+        $("#"+msg[0]).append(time + " " + $("#username-input").val() + ": " + msg[1] + "<br/>");        
     });
 });
 
