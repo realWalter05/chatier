@@ -6,6 +6,10 @@ app.config["SECRET_KEY"] = "WalterIsCull"
 socketio = SocketIO(app, cors_allowed_origins="*")
 usernames = {}
 
+@app.route('/')
+def index():
+    return render_template('index.html')
+
 @socketio.on("message")
 def handle_message(msg):
     print(usernames[request.sid])
