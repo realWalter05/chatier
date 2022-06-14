@@ -8,6 +8,7 @@ usernames = {}
 
 @app.route('/')
 def index():
+    print("returning")
     return render_template('index.html')
 
 @socketio.on("message")
