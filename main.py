@@ -39,5 +39,5 @@ def handle_connection():
 
 if __name__ == "__main__":
     print("HUH")
-    app.run()
-    #socketio.run(app)
+    #app.run()
+    socketio.run(app)
