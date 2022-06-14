@@ -2,7 +2,7 @@ $(document).ready(function() {
 console.log("Jquery works...");
 
 $("#connect-btn").on("click", function () {
-    const socket = io.connect("https://chatier.herokuapp.com/",
+    const socket = io.connect("/",
     {
         'transports': ['polling'],
         'autoConnect': true,
@@ -11,7 +11,7 @@ $("#connect-btn").on("click", function () {
         'reconnection': true,
         'reconnectionDelay': 1000,
         'reconnectionDelayMax': 5000,
-        'reconnectionAttempts': 5,
+        'reconnectionAttempts': 20,
 		'secure': true
     });
 
