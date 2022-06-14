@@ -1,1 +1,1 @@
-web: gunicorn --worker-class eventlet -w 1 main:app
+web: waitress-serve --port=5004 main:application
