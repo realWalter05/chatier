@@ -14,7 +14,7 @@ $("#connect-btn").on("click", function () {
         'reconnectionAttempts': 20,
 		'secure': true
     });
-gi
+
     socket.on("connect", function () {
         let username = $("#username-input").val();
         socket.send(["set_username", username]);
