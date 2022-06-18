@@ -2,7 +2,7 @@ $(document).ready(function() {
 console.log("Jquery works...");
 
 $("#connect-btn").on("click", function () {
-    const socket = io.connect("https://chatier.herokuapp.com:5000");
+    const socket = io.connect("https://chatier.herokuapp.com");
 
     socket.on("connect", function () {
         let username = $("#username-input").val();
