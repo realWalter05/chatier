@@ -2,7 +2,7 @@ $(document).ready(function() {
 console.log("Jquery works...");
 
 $("#connect-btn").on("click", function () {
-    const socket = io.connect("http://chatier.herokuapp.com",
+    const socket = io.connect("/",
     {
         'transports': ['polling'],
         'autoConnect': false,
