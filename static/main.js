@@ -2,10 +2,17 @@ $(document).ready(function() {
 console.log("Jquery works...");
 
 $("#connect-btn").on("click", function () {
-    const socket = io.connect("/",
+    const socket = io.connect("http://chatier.herokuapp.com",
     {
-        transports: ['websocket'], 
-        upgrade: false
+        'transports': ['polling'],
+        'autoConnect': false,
+        'pingInterval': 25000,
+        'pingTimeout': 180000,
+        'reconnection': false,
+        'reconnectionDelay': 1000,
+        'reconnectionDelayMax': 5000,
+        'reconnectionAttempts': 20,
+		'secure': true
     });
 
     socket.on("connect", function () {
