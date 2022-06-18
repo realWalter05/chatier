@@ -4,15 +4,8 @@ console.log("Jquery works...");
 $("#connect-btn").on("click", function () {
     const socket = io.connect("/",
     {
-        'transports': ['websocket'],
-        'autoConnect': false,
-        'pingInterval': 25000,
-        'pingTimeout': 180000,
-        'reconnection': false,
-        'reconnectionDelay': 1000,
-        'reconnectionDelayMax': 5000,
-        'reconnectionAttempts': 20,
-		'secure': true
+        transports: ['websocket'], 
+        upgrade: false
     });
 
     socket.on("connect", function () {
