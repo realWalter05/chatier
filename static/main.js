@@ -2,18 +2,7 @@ $(document).ready(function() {
 console.log("Jquery works...");
 
 $("#connect-btn").on("click", function () {
-    const socket = io.connect("/",
-    {
-        'transports': ['polling'],
-        'autoConnect': false,
-        'pingInterval': 25000,
-        'pingTimeout': 180000,
-        'reconnection': false,
-        'reconnectionDelay': 1000,
-        'reconnectionDelayMax': 5000,
-        'reconnectionAttempts': 20,
-		'secure': true
-    });
+    const socket = io.connect("https://chatier.herokuapp.com/");
 
     socket.on("connect", function () {
         let username = $("#username-input").val();
