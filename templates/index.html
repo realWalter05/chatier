@@ -24,17 +24,20 @@
 			<section class="col">	
 				<div class="row">
 					<input type="text" class="form-control col" id="username-input" placeholder="Username"/>
-					<button id="connect-btn" class="btn btn-light col">Join</button>
+					<button id="connect-btn" class="btn btn-light col">Join chat</button>
 				</div>
 
 				<div class="row">
-					<input type="text" class="form-control col" id="msg-input" placeholder="Co?"/>
-					<input type="text" class="form-control col" id="receiver-input" placeholder="Komu?"/>
+					<textarea class="form-control" style="min-height: 6rem;" id="msg-input" placeholder="Zpráva"></textarea>
 				</div>
+
+				<div class="row">
+					<input type="text" class="form-control col" id="receiver-input" placeholder="Komu jí poslat?"/>
+				</div>				
 				<button id="send-msg-btn" class="btn btn-dark mt-3 w-100">Send</button>
 			</section>
 
-			<ul id="online" class="w-50 text-center col overflow-auto">
+			<ul id="online" style="max-height: 15rem; overflow-y: auto; list-style-type: none;" class="w-50 text-center col">
 				<h2>Online now</h2>
 			</ul>
 

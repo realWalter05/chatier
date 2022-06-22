@@ -26,10 +26,11 @@ def handle_message(msg):
         send(["usernames", msg[1]], broadcast=True)
 
     elif msg[0] == "message":
-        print("Msg sent: " + str(msg))
-        receiver = list(usernames.keys())[list(usernames.values()).index(msg[1][0])]
-        message = [usernames[request.sid], msg[1][1], datetime.now().strftime("%H:%M:%S")]
-        send(message, to=receiver)
+        if msg[1][0] in list(usernames.values()):
+            print("Msg sent: " + str(msg))
+            receiver = list(usernames.keys())[list(usernames.values()).index(msg[1][0])]
+            message = [usernames[request.sid], msg[1][1], datetime.now().strftime("%H:%M:%S")]
+            send(message, to=receiver)
 
 @socketio.on("connect")
 def handle_connection():
@@ -38,8 +39,11 @@ def handle_connection():
     send(["usernames_full", list(usernames.values())], to=request.sid)
     usernames[request.sid] = ""
 
-
-if __name__ == "__main__":
-    print("Chatier intiated.")
-    app.run()
-    #socketio.run(app, host='0.0.0.0', port=5000)
+@socketio.on("disconnect")
+def handle_connection():
+    print("Player disconnects")
+    # Save username to dictionary
+    print(usernames)
+    usernames.pop(request.sid)
+    print(usernames)
+    send(["usernames_full", list(usernames.values())], broadcast=True)
