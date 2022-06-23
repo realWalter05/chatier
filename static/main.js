@@ -3,7 +3,7 @@ $(document).ready(function() {
     
     $("#connect-btn").on("click", function () {
         // const socket = io.connect("");
-        const socket = io.connect("35.198.78.211", {transports: ['websocket'], upgrade: false});
+        const socket = io.connect("http://35.198.78.211", {transports: ['websocket'], upgrade: false});
     
         socket.on("connect", function () {
             let username = $("#username-input").val();
