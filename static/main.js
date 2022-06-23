@@ -3,7 +3,7 @@ $(document).ready(function() {
     
     $("#connect-btn").on("click", function () {
         // const socket = io.connect("");
-        const socket = io.connect("/");
+        const socket = io.connect();
     
         socket.on("connect", function () {
             let username = $("#username-input").val();
