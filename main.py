@@ -11,11 +11,11 @@ usernames = {}
 def index():
     print("Indexing")
     return render_template('index.html')
+    
+@app.route('/design')
+def design():
+    return render_template('index_new.html')
 
-@app.route('/reset')
-def reset():
-    usernames = {}
-    return render_template('index.html')
 
 @socketio.on("message")
 def handle_message(msg):
