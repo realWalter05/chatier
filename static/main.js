@@ -2,8 +2,8 @@ $(document).ready(function() {
     console.log("Jquery works...");
     
     $("#connect-btn").on("click", function () {
-        //const socket = io.connect("http://34.125.53.113/");
-        const socket = io.connect("/");
+        // const socket = io.connect("");
+        const socket = io.connect("34.125.53.113", {transports: ['websocket'], upgrade: false});
     
         socket.on("connect", function () {
             let username = $("#username-input").val();
