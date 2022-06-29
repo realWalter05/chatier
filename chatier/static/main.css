@@ -1,0 +1,24 @@
+.navbar-nav li a {
+    font-size: 1.15em !important;
+}
+
+.sidebar {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.sender-li {
+    display: flex;
+    justify-content: left;
+    padding: 1rem 9rem 1rem 1rem;
+}
+
+.receiver-li {
+    display: flex;
+    justify-content: right;
+    padding: 1rem 3rem 1rem 9rem;
+}
+
+.box {
+    display: flex;
+}
