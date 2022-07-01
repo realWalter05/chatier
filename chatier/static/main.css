@@ -9,16 +9,32 @@
 
 .sender-li {
     display: flex;
-    justify-content: left;
-    padding: 1rem 9rem 1rem 1rem;
-}
-
-.receiver-li {
-    display: flex;
     justify-content: right;
     padding: 1rem 3rem 1rem 9rem;
 }
 
+.receiver-li {
+    display: flex;
+    justify-content: left;
+    padding: 1rem 9rem 1rem 1rem;
+}
+
 .box {
     display: flex;
+}
+
+#register-btn {
+    cursor: pointer;
+}
+
+#selected-chat {
+    background: rgb(240, 240, 240);
+}
+
+.msg-box {
+    height: 70vh;
+}
+
+.msg-box::-webkit-scrollbar {
+    display: none;
 }
