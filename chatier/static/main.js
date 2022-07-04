@@ -45,21 +45,74 @@ $(document).ready(function() {
             $("#register-btn").focus();
         });
 
+        socket.on("online_count", function (onlineClients) {
+            // Getting number of online clients
+            $("#online-now").text("Online now " + onlineClients);
+        });
+
+        $("#online-now").on("click", function () {
+            $("#chat-select").find('*').not('#new-msg-btn').remove();
+            $(`<a class="list-group-item list-group-item-action px-4 py-4" aria-current="true">
+                <div class="d-flex align-items-center justify-content-between">
+                    <strong class="mb-1">These are the connected chatiers.</strong>
+                </div>
+                <div class="col mb-1 small">Click again on Online now to refresh</div>
+               </a>`).appendTo("#chat-select");
+
+            $.ajax({
+                data : {},
+                type : 'POST',
+                url : "/get_online_clients",
+            }).done(function(data) {
+                // Appending online players
+                $.each(data, function(index, value ) {
+                  $(`<a class="list-group-item py-2 d-flex justify-content-center align-items-center">` + value + `</a>`).appendTo("#chat-select");
+                });
+            });
+            $("#new-msg-btn").addClass("display-none");
+        });
+
+        $("#chats-nav").on("click", function () {
+            // When clicked on chats
+            $("#chat-select").find('*').not('#new-msg-btn').remove();
+            $(`
+			<a class="list-group-item list-group-item-action px-4 py-4" aria-current="true">
+				<div class="d-flex align-items-center justify-content-between">
+				  <strong class="mb-1">First of all you need to connect</strong>
+				</div>
+				<div class="col mb-1 small">Then you can write msgs to anyone you want</div>
+			</a>           
+            `).appendTo("#chat-select");
+
+            $("#new-msg-btn").removeClass("display-none");
+            $("#new-msg-btn").appendTo("#chat-select");
+
+            $.each(chats, function(key, value) {
+                $(`<a onclick="ChangeChat(this);" class="list-group-item list-group-item-action w-100 px-4 py-4" aria-current="true">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <strong class="mb-1">` + key + `</strong><small class="text-success">New message</small>
+                        </div>
+                        <div class="col mb-1 small">
+                            ` + Object.values(Object.values(chats[key])[chats[key].length - 1])[0] +  `
+                        </div>
+                    </a>`).insertBefore('#new-msg-btn');    
+            });
+        });
 
         socket.on("message", function (msg) {
-            console.log(chats);
             // Message received
             let sender = msg["sender"]
             let content = msg["content"]
+            let time = msg["time"]
+
             let msg_dict = {"receiver-li" : msg["content"]}
 
             if (!(sender in chats)) {
                 // Chat with this msg sender doesn't exist yet, so we create it
                 chats[sender] = []                
-                $(`
-                    <a onclick="ChangeChat(this);" class="list-group-item list-group-item-action w-100 px-4 py-4" aria-current="true">
+                $(`<a onclick="ChangeChat(this);" class="list-group-item list-group-item-action w-100 px-4 py-4" aria-current="true">
                         <div class="d-flex align-items-center justify-content-between">
-                            <strong class="mb-1">` + sender + `</strong><small class="text-success">New message</small>
+                            <strong class="mb-1">` + sender + `</strong><small class="text-success">` + time.toString()  + `</small>
                         </div>
                         <div class="col mb-1 small">
                             ` + content + `
@@ -90,6 +143,7 @@ $(document).ready(function() {
             let msg = {
                 "receiver" : receiver,
                 "content" : content,
+                "time" : Date.now()
             }
             let msg_dict = {"sender-li" : content};
             chats[receiver].push(msg_dict)
@@ -134,15 +188,14 @@ $(document).ready(function() {
         let sender = $("#new-msg-btn").text() 
         chats[sender] = []
 
-        $(`
-        <a onclick="ChangeChat(this);" class="list-group-item list-group-item-action w-100 px-4 py-4" aria-current="true">
+        $(`<a onclick="ChangeChat(this);" class="list-group-item list-group-item-action w-100 px-4 py-4" aria-current="true">
             <div class="d-flex align-items-center justify-content-between">
                 <strong class="mb-1">` + sender + `</strong><small>No messages</small>
             </div>
             <div class="col mb-1 small">
                 Write him something :)
             </div>
-        </a>`).insertBefore('#new-msg-btn').click();
+          </a>`).insertBefore('#new-msg-btn').click();
         $("#new-msg-btn").text("New message")
     });
 

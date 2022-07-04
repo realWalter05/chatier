@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, jsonify
 from flask_socketio import SocketIO, send, emit
 from datetime import datetime
 
@@ -11,13 +11,22 @@ def set_get_msg(content, sender, receiver):
     return {
         "content" : content,
         "sender" : sender,
-        "receiver" : receiver
+      "receiver" : receiver
     }
+
+def get_client_count():
+    return len(list(clients.keys()))
 
 @app.route('/')
 def index():
     print("Indexing")
     return render_template('index.html')
+
+@app.route('/get_online_clients', methods=["POST"])
+def get_online_clients():
+    print(list(clients.values()))
+    return jsonify(list(clients.values()))
+
 
 @socketio.on("client_registration")
 def register_client(username):
@@ -41,7 +50,8 @@ def handle_message(msg):
         receiver = list(clients.keys())[list(clients.values()).index(msg["receiver"])]
         msg = {
             "sender" : clients[client_id],
-            "content" : msg["content"]
+            "content" : msg["content"],
+            "time" : msg["time"]
         }
         send(msg, to=receiver)
 
@@ -49,15 +59,13 @@ def handle_message(msg):
 def handle_connection():
     print("Player connects:")
     # Save username to dictionary
-   # send(["clients_full", list(clients.values())], broadcast=True)
     clients[request.sid] = ""
+    emit("online_count", get_client_count(), broadcast=True)
+
 
 @socketio.on("disconnect")
 def handle_connection():
     print("Player disconnects")
-    # Save username to dictionary
-    print(clients)
+    # Remove player from list of online clients
     clients.pop(request.sid)
-    clients.pop(request.sid)
-    print(clients)
-   # send(["clients_full", list(clients.values())], broadcast=True)
+    emit("online_count", get_client_count(), broadcast=True)

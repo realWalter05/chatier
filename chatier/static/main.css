@@ -38,3 +38,7 @@
 .msg-box::-webkit-scrollbar {
     display: none;
 }
+
+.display-none {
+    display: none !important;
+}
